@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Text UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .text-display {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            white-space: pre-wrap; /* Ensures line breaks are preserved */
+        }
+
+        .edit-btn, .save-btn {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .edit-btn:hover, .save-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            display: none;
+            box-sizing: border-box; /* Ensures padding is included in width/height */
+            resize: none; /* Prevents manual resizing */
+            overflow: hidden; /* Prevents scrollbar appearance */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="text-display" id="textDisplay">{{ text }}</div>
+    <textarea id="textInput" class="text-input"></textarea>
+    <button class="edit-btn" id="editButton" onclick="editText()">Edit</button>
+    <button class="save-btn" id="saveButton" style="display: none;" onclick="saveText()">Save</button>
+</div>
+
+<script>
+    function editText() {
+        const textDisplay = document.getElementById('textDisplay');
+        const textInput = document.getElementById('textInput');
+        const editButton = document.getElementById('editButton');
+        const saveButton = document.getElementById('saveButton');
+
+        textInput.value = textDisplay.textContent;
+        textInput.style.display = 'block';
+        textDisplay.style.display = 'none';
+        editButton.style.display = 'none';
+        saveButton.style.display = 'block';
+        
+        adjustTextAreaHeight(textInput);
+    }
+
+    function saveText() {
+        const textDisplay = document.getElementById('textDisplay');
+        const textInput = document.getElementById('textInput');
+        const editButton = document.getElementById('editButton');
+        const saveButton = document.getElementById('saveButton');
+
+        textDisplay.textContent = textInput.value;
+        textDisplay.style.display = 'block';
+        textInput.style.display = 'none';
+        editButton.style.display = 'block';
+        saveButton.style.display = 'none';
+    }
+
+    function adjustTextAreaHeight(textInput) {
+        textInput.style.height = 'auto'; // Reset height first
+        textInput.style.height = textInput.scrollHeight + 'px'; // Adjust height based on content
+    }
+
+    // Adjust height dynamically as the user types
+    document.getElementById('textInput').addEventListener('input', function() {
+        adjustTextAreaHeight(this);
+    });
+</script>
+
+</body>
+</html>
